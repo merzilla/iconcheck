@@ -2,8 +2,15 @@
 
 namespace JosefGlatz\Iconcheck\Domain\Model\Dto;
 
+use JosefGlatz\Iconcheck\Service\VersionService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Class ExtensionConfiguration
+ * @package JosefGlatz\Iconcheck\Domain\Model\Dto
+ *
+ * @TODO If TYPO3 8 LTS support should be dropped: remove ExtensionConfiguration Dto
+ */
 class ExtensionConfiguration
 {
 
@@ -21,15 +28,16 @@ class ExtensionConfiguration
 
     public function __construct()
     {
-        if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['iconcheck'] === null) {
-            $settings = [];
-        } else {
-            /** @noinspection UnserializeExploitsInspection */
-            $settings = (array)unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['iconcheck']);
-            foreach ($settings as $key => $value) {
-                if (property_exists(__CLASS__, $key)) {
-                    $this->$key = $value;
-                }
+        if (VersionService::isVersion8()) {
+            $settings = (array)unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['iconcheck'], [ false ]);
+        }
+        if (VersionService::isVersion9() || VersionService::isVersion10()) {
+            $settings = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('iconcheck');
+        }
+
+        foreach ($settings as $key => $value) {
+            if (property_exists(__CLASS__, $key)) {
+                $this->$key = $value;
             }
         }
     }

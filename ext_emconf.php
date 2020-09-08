@@ -1,22 +1,31 @@
 <?php
-
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Icon Check: show registered icons',
-    'description' => 'Module for listing all registered icons',
+    'description' => 'Backend module for listing (all) registered icons within your TYPO3 instance. Useful for integrators/developers which making there TYPO3 backends bright and shiny.',
     'category' => 'be',
     'author' => 'Josef Glatz',
+    'author_email' => 'jousch@gmail.com',
+    'author_company' => 'josefglatz.at',
     'state' => 'stable',
-    'version' => '1.0.0',
-    'constraints' => [
-        'depends' => [
-            'typo3' => '8.7.0-8.7.99',
+    'version' => '2.2.0',
+    'constraints' =>
+        [
+            'depends' =>
+                [
+                    'typo3' => '8.7.17-10.4.99',
+                ],
+            'conflicts' =>
+                [
+                ],
+            'suggests' =>
+                [
+                ],
         ],
-        'conflicts' => [],
-        'suggests' => [],
-    ],
-    'autoload' => [
-        'psr-4' => [
-            'JosefGlatz\\IconCheck\\' => 'Classes'
-        ]
-    ],
+    'autoload' =>
+        [
+            'psr-4' =>
+                [
+                    'JosefGlatz\\Iconcheck\\' => 'Classes',
+                ],
+        ],
 ];
